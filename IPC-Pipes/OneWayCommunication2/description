@@ -1,0 +1,4 @@
+in this communication,
+the p1,p2 two are seperate process.
+the p1 process take input and write into "pipe".
+using execv-command ,we call p2 process. now p2 process reads data from that pipe and print it on terminal.

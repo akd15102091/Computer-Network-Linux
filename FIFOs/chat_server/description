@@ -1,0 +1,2 @@
+lets assume there are three clients(c1,c2,c3) and a server.
+if any client sends message then this message goes to server and server send this message to other processes.

@@ -1,0 +1,8 @@
+this code is for Two way communication between parent and chile process using "two pipes".
+1)parent get some input and write into first pipe.
+2)child read that data from first pipe and convert it into capital letters.
+3)now child write modified data into second pipe
+4) parent read from second pipe and print that in the terminal.
+
+this process is repeating........
+

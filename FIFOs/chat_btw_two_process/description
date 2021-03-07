@@ -1,0 +1,4 @@
+there are two process p1,p2
+they are communicating with each other.
+p1 writes then p2 reads  and print on terminal
+and vice versa

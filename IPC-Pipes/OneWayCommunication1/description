@@ -1,0 +1,3 @@
+this code is for one way communication,
+in which the parent get some data as input and write that data into "pipe" 
+and child reads that data from "pipe" and print that on console(terminal).

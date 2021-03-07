@@ -1,0 +1,30 @@
+in this there are two process : p1 & p2 
+p2 can interupt or kill p1 using kill system call.
+
+working : 
+
+about p1 :
+	 
+    1) This program installs two signal handlers for SIGINT and SIGQUIT. Then, it creates a shared memory, attaches this shared memory to its address space, and saves its process ID there for another process to retrieve. After this is done, this program enters an infinite loop.
+    2)The SIGINT handler prints out a message indicating that a SIGINT signal was received.
+    3)The SIGQUIT handler prints out a message indicating a SIGQUIT was receives. Then, it detaches and removes the shared memory, and exits!
+
+When this program is run, it will print out the counter values. Pressing Ctrl-C causes the SIGINT handler to print a message telling you that a SIGINT was received. Pressing Ctrl-\ generates a SIGQUIT signal, which is received by the SIGQUIT handler. Then, the program terminates. This is not very interesting because we have already discussed about this. 
+
+
+------------------------
+
+about p2 : 
+     1)This program requests the shared memory segment created by the previous program. Since both programs use ftok() to create the key, they should be in the same directory.
+      2)Then, it retrieves the process ID stored in the shared memory segment and enters an infinite loop asking for a single character input.
+      3)If the input is i, a SIGINT is sent to the other process with kill().
+       4)If the input is k, a SIGQUIT is sent to the other process with kill(). After this is done, this program exits. 
+
+
+
+
+--play with both programs-------
+
+      1) Now, let us see how to play with these two programs. The first program is called process-p1 and the second process-p2. Because process-p1 must create a shared memory segment and save its process ID there, it must run first. So, run this program in one window until some output lines are shown. At this moment, the shared memory has been created and the process ID stored properly.
+
+       2) Then, move to another window and run process-p2. If you type i, process-p2 sends a SIGINT to process-p1, and if you type k, process-p2 send a SIGQUIT to process-p1. 

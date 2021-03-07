@@ -1,0 +1,7 @@
+in this program :
+
+p1 takes data from console and
+p1 writes data into message_Queue of two types of messages and
+alternatively  c1 read that one type of message and print onto the screen.
+
+and  c2 read that another type of message and print onto the screen.
