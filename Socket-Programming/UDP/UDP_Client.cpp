@@ -1,0 +1,67 @@
+    //filename server_ipaddress portno
+    //argv[0] -> filename, argv[1] -> server_ipaddress , argv[2] -> portno 
+
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/socket.h>
+#include<netinet/in.h>
+#include<netdb.h>
+
+using namespace std ;
+
+void error(const char *msg){
+    perror(msg) ;
+    exit(1) ;
+}
+
+int main(int argc , char *argv[])  
+{
+    
+    int sockfd, portno , n;
+    char buffer[1024] ;
+    struct sockaddr_in serv_addr ; // sockaddr_in  gives us the internet address
+    struct hostent *server ; // this strcture is used to store informationa about  a give host such as a  host name and IPV4 address... 
+
+    if(argc<3){
+        fprintf(stderr,"usage %s hostname port\n",argv[0]) ;
+        exit(1) ;
+    }
+
+    portno = atoi(argv[2]) ;
+
+    sockfd = socket(AF_INET, SOCK_DGRAM, 0) ;
+    if(sockfd<0){
+        error("Error opening socket") ;
+    }
+
+    server = gethostbyname(argv[1]) ;
+    if(server==NULL){
+        fprintf(stderr,"Error, no such host");
+    }
+    bzero((char *) &serv_addr, sizeof(serv_addr)) ;
+    serv_addr.sin_family = AF_INET ;
+    bcopy((char *)server->h_addr, (char *) &serv_addr.sin_addr.s_addr, server->h_length) ;
+    serv_addr.sin_port = htons(portno) ;
+    socklen_t servlen = sizeof(serv_addr);
+    while(1){
+        bzero(buffer,1024) ;
+        fgets(buffer,1024,stdin) ;
+        n = sendto(sockfd,buffer,strlen(buffer),MSG_CONFIRM,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) ;
+        if(n<0) error("Error on writing") ;
+        bzero(buffer,1024) ;
+
+        n = recvfrom(sockfd, buffer,1024,MSG_WAITALL,(struct sockaddr *) &serv_addr,&servlen) ;
+        if(n<0) error("error on reading") ;
+
+        cout<<"Server : "<<buffer<<endl;
+        int i = strncmp("Bye", buffer,3) ;
+        if(i==0) break ;
+    }
+    close(sockfd) ;
+
+    return 0;
+}

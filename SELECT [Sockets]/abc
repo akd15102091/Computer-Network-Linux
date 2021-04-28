@@ -1,0 +1,10 @@
+Khemraj Marathe5:10 PM
+FD_SET(nsfd[i],&rset);
+FD_ISSET(nsfd[i],&rset)
+Khemraj Marathe5:11 PM
+int i=0;
+int nsfd[100];
+nsfd[i++] = connfd
+Khemraj Marathe5:12 PM
+for(int j=0;j<i;j++) FD_SET(nsfd[j],&rset);
+for(int j=0;j<i;j++) if(FD_ISSET(nsfd[j],&rset))
